@@ -1,4 +1,4 @@
-package com.xyzq.kid.action;
+package com.xyzq.kid.portal.action;
 
 import com.xyzq.kid.logic.service.DemoService;
 import com.xyzq.simpson.base.json.JSONObject;
