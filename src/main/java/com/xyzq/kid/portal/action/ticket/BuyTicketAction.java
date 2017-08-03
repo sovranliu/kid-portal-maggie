@@ -5,16 +5,12 @@ import com.xyzq.kid.logic.config.common.ConfigCommon;
 import com.xyzq.kid.logic.config.service.ConfigService;
 import com.xyzq.kid.logic.ticket.entity.TicketEntity;
 import com.xyzq.kid.logic.ticket.service.TicketService;
-import com.xyzq.simpson.base.json.JSONObject;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
-import com.xyzq.simpson.maggie.framework.action.core.IAction;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 范例动作
@@ -59,11 +55,11 @@ public class BuyTicketAction extends CustomerAction {
 
         int type = (Integer)context.parameter("ticketType", -1);
         if(type == TicketEntity.TICKET_TYPE_SINGLE) {
-            int price = Integer.parseInt(configService.selectContentByName(ConfigCommon.PRICE_SINGLE));
+            int price = configService.fetch(ConfigCommon.FEE_SINGLETICKET, Integer.class);
             ticketEntity.price = new BigDecimal(price);
             ticketService.buySingleTickets(ticketEntity);
         } else if(type == TicketEntity.TICKET_TYPE_GROUP) {
-            int price = Integer.parseInt(configService.selectContentByName(ConfigCommon.PRICE_GROUP));
+            int price = configService.fetch(ConfigCommon.FEE_GROUPTICKET, Integer.class);
             ticketEntity.price = new BigDecimal(price);
             int num = (Integer)context.parameter("ticketNum", -1);
             ticketService.buyGroupleTickets(ticketEntity, num);
