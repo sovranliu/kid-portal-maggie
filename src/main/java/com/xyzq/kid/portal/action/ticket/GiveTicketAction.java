@@ -35,7 +35,7 @@ public class GiveTicketAction extends CustomerAction {
     public String execute(Visitor visitor, Context context) throws Exception {
 
 
-        int ticketId = (Integer) context.parameter("serialNumber", -1);
+        int ticketId = (Integer) context.parameter("serialNo", -1);
         String mobileNo = (String)context.parameter("phone");
 
         ticketService.handselTickets(ticketId, mobileNo);
