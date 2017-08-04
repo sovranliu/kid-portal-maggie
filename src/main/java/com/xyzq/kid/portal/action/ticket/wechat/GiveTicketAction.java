@@ -1,4 +1,4 @@
-package com.xyzq.kid.portal.action.ticket;
+package com.xyzq.kid.portal.action.ticket.wechat;
 
 import com.xyzq.kid.common.action.CustomerAction;
 import com.xyzq.kid.logic.config.common.ConfigCommon;
