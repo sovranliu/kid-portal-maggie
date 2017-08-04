@@ -1,27 +1,23 @@
-package com.xyzq.kid.portal.action.ticket;
+package com.xyzq.kid.portal.action.user.portal;
 
 import com.xyzq.kid.common.action.CustomerAction;
-import com.xyzq.kid.logic.config.common.ConfigCommon;
-import com.xyzq.kid.logic.config.service.ConfigService;
-import com.xyzq.kid.logic.ticket.entity.TicketEntity;
-import com.xyzq.kid.logic.ticket.service.TicketService;
+import com.xyzq.kid.logic.user.service.UserService;
+import com.xyzq.simpson.base.json.JSONObject;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.math.BigDecimal;
-
 /**
- * 增票
+ * 范例动作
  */
-@MaggieAction(path = "kid/wechat/giveTicket")
-public class GiveTicketAction extends CustomerAction {
+@MaggieAction(path = "kid/portal/getUserInfo")
+public class GetUserInfoAction extends CustomerAction {
     /**
      * Action中只支持Autowired注解引入SpringBean
      */
     @Autowired
-    private TicketService ticketService;
+    private UserService userService;
 
 
     /**
@@ -33,13 +29,13 @@ public class GiveTicketAction extends CustomerAction {
      */
     @Override
     public String execute(Visitor visitor, Context context) throws Exception {
-
-
-        int ticketId = (Integer) context.parameter("serialNo", -1);
-        String mobileNo = (String)context.parameter("phone");
-
-        ticketService.handselTickets(ticketId, mobileNo);
-
+        String result = super.execute(visitor, context);
+        if(null != result) {
+            return result;
+        }
+        String mobileNo = (String) context.get(CONTEXT_KEY_MOBILENO);
+        context.set("data", JSONObject.convertFromObject(userService.selectByMolieNo(mobileNo)));
         return "success.json";
     }
+
 }

@@ -1,4 +1,4 @@
-package com.xyzq.kid.portal.action.user;
+package com.xyzq.kid.portal.action.user.wechat;
 
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;

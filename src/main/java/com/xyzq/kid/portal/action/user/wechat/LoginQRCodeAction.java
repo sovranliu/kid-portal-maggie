@@ -1,4 +1,4 @@
-package com.xyzq.kid.portal.action.user;
+package com.xyzq.kid.portal.action.user.wechat;
 
 import com.xyzq.kid.portal.action.base.QRCodeAction;
 import com.xyzq.simpson.base.etc.Base64;
