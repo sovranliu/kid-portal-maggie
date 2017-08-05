@@ -64,7 +64,7 @@ public abstract class PortalUserAjaxAction implements IAction {
                 return doExecute(visitor, context);
             }
         }
-        context.put("redirect", url_page_login_portal);
+        context.set("redirect", url_page_login_portal);
         return "fail.json";
     }
 
