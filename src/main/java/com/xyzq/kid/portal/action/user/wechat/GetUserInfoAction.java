@@ -1,17 +1,15 @@
 package com.xyzq.kid.portal.action.user.wechat;
 
 import com.xyzq.kid.common.action.CustomerAction;
-import com.xyzq.kid.logic.user.service.DemoService;
 import com.xyzq.kid.logic.user.service.UserService;
 import com.xyzq.simpson.base.json.JSONObject;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
-import com.xyzq.simpson.maggie.framework.action.core.IAction;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * 范例动作
+ * 获取用户信息动作
  */
 @MaggieAction(path = "kid/wechat/getUserInfo")
 public class GetUserInfoAction extends CustomerAction {
@@ -39,5 +37,4 @@ public class GetUserInfoAction extends CustomerAction {
         context.set("data", JSONObject.convertFromObject(userService.selectByMolieNo(mobileNo)));
         return "success.json";
     }
-
 }
