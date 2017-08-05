@@ -1,6 +1,6 @@
 package com.xyzq.kid.portal.action.ticket.portal;
 
-import com.xyzq.kid.common.action.CustomerAction;
+import com.xyzq.kid.portal.action.user.portal.PortalUserAjaxAction;
 import com.xyzq.kid.logic.config.common.ConfigCommon;
 import com.xyzq.kid.logic.config.service.ConfigService;
 import com.xyzq.kid.logic.ticket.entity.TicketEntity;
@@ -16,7 +16,7 @@ import java.math.BigDecimal;
  * 范例动作
  */
 @MaggieAction(path = "kid/portal/buyTicket")
-public class BuyTicketAction extends CustomerAction {
+public class BuyTicketAction extends PortalUserAjaxAction {
     /**
      * Action中只支持Autowired注解引入SpringBean
      */
@@ -34,7 +34,7 @@ public class BuyTicketAction extends CustomerAction {
      * @return 下一步动作，包括后缀名，null表示结束
      */
     @Override
-    public String execute(Visitor visitor, Context context) throws Exception {
+    public String doExecute(Visitor visitor, Context context) throws Exception {
 
 //        String result = super.execute(visitor, context);
 //        if(null != result) {

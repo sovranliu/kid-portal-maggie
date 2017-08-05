@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.gson.Gson;
 import com.mysql.jdbc.StringUtils;
-import com.xyzq.kid.common.action.CustomerAction;
+import com.xyzq.kid.portal.action.user.portal.PortalUserAjaxAction;
 import com.xyzq.kid.logic.book.dao.po.BookTimeRepository;
 import com.xyzq.kid.logic.book.dao.po.BookTimeSpan;
 import com.xyzq.kid.logic.book.service.BookRepositoryService;
@@ -17,7 +17,7 @@ import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
 
 @MaggieAction(path="kid/portal/getBookablenum")
-public class GetBookAbleNum extends CustomerAction {
+public class GetBookAbleNum extends PortalUserAjaxAction {
 	
 	@Autowired
 	BookRepositoryService bookRepositoryService;
@@ -28,11 +28,7 @@ public class GetBookAbleNum extends CustomerAction {
 	Gson gson=new Gson();
 	
 	@Override
-	public String execute(Visitor visitor, Context context) throws Exception {
-		String result=super.execute(visitor, context);
-		if(result!=null){
-			return result;
-		}
+	public String doExecute(Visitor visitor, Context context) throws Exception {
 		String year=(String)context.parameter("year");
 		String month=(String)context.parameter("month");
 		String day=(String)context.parameter("day");

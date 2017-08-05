@@ -1,6 +1,6 @@
 package com.xyzq.kid.portal.action.ticket.portal;
 
-import com.xyzq.kid.common.action.CustomerAction;
+import com.xyzq.kid.portal.action.user.portal.PortalUserAjaxAction;
 import com.xyzq.kid.logic.ticket.service.TicketService;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 增票
  */
 @MaggieAction(path = "kid/portal/giveTicket")
-public class GiveTicketAction extends CustomerAction {
+public class GiveTicketAction extends PortalUserAjaxAction {
     /**
      * Action中只支持Autowired注解引入SpringBean
      */
@@ -27,7 +27,7 @@ public class GiveTicketAction extends CustomerAction {
      * @return 下一步动作，包括后缀名，null表示结束
      */
     @Override
-    public String execute(Visitor visitor, Context context) throws Exception {
+    public String doExecute(Visitor visitor, Context context) throws Exception {
 
 
         int ticketId = (Integer) context.parameter("serialNumber", -1);

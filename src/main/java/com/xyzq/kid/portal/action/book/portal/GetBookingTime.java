@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.gson.Gson;
 import com.mysql.jdbc.StringUtils;
-import com.xyzq.kid.common.action.CustomerAction;
+import com.xyzq.kid.portal.action.user.portal.PortalUserAjaxAction;
 import com.xyzq.kid.logic.book.dao.po.BookTimeRepository;
 import com.xyzq.kid.logic.book.dao.po.BookTimeSpan;
 import com.xyzq.kid.logic.book.service.BookRepositoryService;
@@ -19,7 +19,7 @@ import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
 
 @MaggieAction(path="kid/portal/getBookingTime")
-public class GetBookingTime extends CustomerAction {
+public class GetBookingTime extends PortalUserAjaxAction {
 	
 	@Autowired
 	BookRepositoryService bookRepositoryService;
@@ -29,11 +29,7 @@ public class GetBookingTime extends CustomerAction {
 	Gson gson=new Gson();
 	
 	@Override
-	public String execute(Visitor visitor, Context context) throws Exception {
-		String result=super.execute(visitor, context);
-		if(result!=null){
-			return result;
-		}
+	public String doExecute(Visitor visitor, Context context) throws Exception {
 		List<Map<String,String>> spanList=new ArrayList<>();
 		String year=(String)context.parameter("year");
 		String month=(String)context.parameter("month");
