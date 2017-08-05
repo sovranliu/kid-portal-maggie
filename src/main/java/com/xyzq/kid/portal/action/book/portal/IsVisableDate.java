@@ -10,7 +10,7 @@ import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
 
-@MaggieAction(path="kid/portal/isVisableDate")
+@MaggieAction(path="kid/portal/isViableDate")
 public class IsVisableDate extends PortalUserAjaxAction {
 	
 	@Autowired
