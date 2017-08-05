@@ -1,6 +1,7 @@
 package com.xyzq.kid.portal.action.ticket.portal;
 
 import com.xyzq.kid.logic.config.service.ConfigService;
+import com.xyzq.kid.portal.action.user.portal.PortalUserAjaxAction;
 import com.xyzq.simpson.base.json.JSONObject;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
@@ -14,7 +15,7 @@ import java.util.Map;
  * 范例动作
  */
 @MaggieAction(path = "kid/portal/getTicketPrice")
-public class GetTicketPriceAction implements IAction {
+public class GetTicketPriceAction extends PortalUserAjaxAction {
     /**
      * Action中只支持Autowired注解引入SpringBean
      */
@@ -22,15 +23,8 @@ public class GetTicketPriceAction implements IAction {
     private ConfigService configService;
 
 
-    /**
-     * 动作执行
-     *
-     * @param visitor 访问者
-     * @param context 请求上下文
-     * @return 下一步动作，包括后缀名，null表示结束
-     */
     @Override
-    public String execute(Visitor visitor, Context context) throws Exception {
+    public String doExecute(Visitor visitor, Context context) throws Exception {
         Map result = configService.getPriceInfo();
         if(null != result) {
             context.set("data", JSONObject.convertFromTable(result));
