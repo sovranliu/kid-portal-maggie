@@ -7,6 +7,8 @@ import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
 import com.xyzq.simpson.maggie.framework.action.core.IAction;
 import com.xyzq.simpson.utility.cache.core.ITimeLimitedCache;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -16,6 +18,10 @@ import javax.annotation.Resource;
  * 门户用户Ajax基类
  */
 public abstract class PortalUserAjaxAction implements IAction {
+    /**
+     * 日志对象
+     */
+    protected static Logger logger = LoggerFactory.getLogger(PortalUserAjaxAction.class);
     /**
      * 上下文中的键
      */
@@ -55,6 +61,7 @@ public abstract class PortalUserAjaxAction implements IAction {
     @Override
     public String execute(Visitor visitor, Context context) throws Exception {
         String sId = visitor.cookie("sid");
+        logger.info("portal ajax " + context.uri() + ", ip = " + visitor.ip() + ", sid = " + sId);
         if(!Text.isBlank(sId)) {
             SessionEntity sessionEntity = userService.fetchSession(sId);
             if(null != sessionEntity) {
@@ -63,8 +70,12 @@ public abstract class PortalUserAjaxAction implements IAction {
                 context.put(CONTEXT_KEY_SID, sId);
                 return doExecute(visitor, context);
             }
+            else {
+                logger.info("session is empty, sid = " + sId);
+            }
         }
         context.set("redirect", url_page_login_portal);
+        logger.info("portal ajax " + visitor.ip() + ", redirect = " + url_page_login_portal);
         return "fail.json";
     }
 

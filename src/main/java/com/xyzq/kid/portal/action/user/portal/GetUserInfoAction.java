@@ -1,6 +1,5 @@
 package com.xyzq.kid.portal.action.user.portal;
 
-import com.xyzq.kid.portal.action.user.portal.PortalUserAjaxAction;
 import com.xyzq.kid.logic.user.service.UserService;
 import com.xyzq.simpson.base.json.JSONObject;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;

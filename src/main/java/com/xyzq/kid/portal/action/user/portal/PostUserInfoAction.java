@@ -34,7 +34,6 @@ public class PostUserInfoAction extends PortalUserAjaxAction {
     public String doExecute(Visitor visitor, Context context) throws Exception {
         UserEntity userEntity = new UserEntity();
         userEntity.telephone = (String) context.get(CONTEXT_KEY_MOBILENO);
-        userEntity.openid = (String) context.get(CONTEXT_KEY_OPENID);
         userEntity.userName = (String)context.parameter("userName");
         userEntity.sex = (Integer)context.parameter("sex", 0);
         userEntity.address = (String)context.parameter("address", "");
