@@ -16,7 +16,7 @@ import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
 
-@MaggieAction(path="kid/portal/getBookablenum")
+@MaggieAction(path="kid/portal/getBookableNum")
 public class GetBookAbleNum extends PortalUserAjaxAction {
 	
 	@Autowired
