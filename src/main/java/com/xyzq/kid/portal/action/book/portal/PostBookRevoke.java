@@ -1,5 +1,7 @@
 package com.xyzq.kid.portal.action.book.portal;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.xyzq.kid.portal.action.user.portal.PortalUserAjaxAction;
@@ -16,6 +18,8 @@ import com.xyzq.simpson.maggie.framework.Visitor;
 
 @MaggieAction(path="kid/portal/postRevoke")
 public class PostBookRevoke extends PortalUserAjaxAction {
+	
+	static Logger logger = LoggerFactory.getLogger(PostBookRevoke.class);
 	
 	@Autowired
 	UserService userService;

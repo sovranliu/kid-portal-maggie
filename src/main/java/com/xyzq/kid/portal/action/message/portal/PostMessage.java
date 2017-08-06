@@ -1,9 +1,12 @@
 package com.xyzq.kid.portal.action.message.portal;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.mysql.jdbc.StringUtils;
 import com.xyzq.kid.portal.action.user.portal.PortalUserAjaxAction;
+import com.xyzq.kid.logic.book.service.BookTimeSpanService;
 import com.xyzq.kid.logic.message.service.MessageService;
 import com.xyzq.kid.logic.user.entity.UserEntity;
 import com.xyzq.kid.logic.user.service.UserService;
@@ -13,6 +16,8 @@ import com.xyzq.simpson.maggie.framework.Visitor;
 
 @MaggieAction(path="kid/portal/postMessage")
 public class PostMessage extends PortalUserAjaxAction {
+	
+	static Logger logger = LoggerFactory.getLogger(PostMessage.class);
 	
 	@Autowired
 	UserService userService;

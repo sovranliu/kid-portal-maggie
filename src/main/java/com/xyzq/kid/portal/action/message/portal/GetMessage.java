@@ -3,6 +3,8 @@ package com.xyzq.kid.portal.action.message.portal;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.gson.Gson;
@@ -15,8 +17,10 @@ import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
 
-@MaggieAction(path="kid/wechat/getMessage")
-public class GetMessag extends PortalUserAjaxAction {
+@MaggieAction(path="kid/portal/getMessage")
+public class GetMessage extends PortalUserAjaxAction {
+	
+	static Logger logger = LoggerFactory.getLogger(GetMessage.class);
 	
 	@Autowired
 	UserService userService;
