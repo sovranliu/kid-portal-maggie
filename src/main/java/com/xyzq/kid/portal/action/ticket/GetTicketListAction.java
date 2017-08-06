@@ -1,8 +1,13 @@
 package com.xyzq.kid.portal.action.ticket;
 
+import com.xyzq.kid.logic.Page;
+import com.xyzq.kid.logic.ticket.entity.TicketEntity;
 import com.xyzq.kid.logic.ticket.service.TicketService;
 import com.xyzq.kid.portal.action.user.portal.PortalUserAjaxAction;
+import com.xyzq.simpson.base.json.JSONArray;
+import com.xyzq.simpson.base.json.JSONNumber;
 import com.xyzq.simpson.base.json.JSONObject;
+import com.xyzq.simpson.base.json.JSONString;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
@@ -29,15 +34,21 @@ public class GetTicketListAction extends PortalUserAjaxAction{
      */
     @Override
     public String doExecute(Visitor visitor, Context context) throws Exception {
-        String serialNumber  = (String) context.get("serialNumber ");
-        String telephone = (String) context.get("telephone");
-        String startTime = (String) context.get("startTime ");
-        String endTime  = (String) context.get("endTime ");
-        int status = (Integer) context.get("status");
-        int begin = (Integer) context.get("begin");
-        int limit = (Integer) context.get("limit");
-
-        context.set("data", JSONObject.convertFromObject(ticketService.queryTicketByCond(serialNumber, telephone, startTime, endTime, status, begin, limit)));
+        String telephone = (String) context.get(PortalUserAjaxAction.CONTEXT_KEY_MOBILENO);
+        Page<TicketEntity> page = ticketService.queryTicketByCond(null, telephone, null, null, null, 0, 1000);
+        JSONArray jsonArray = new JSONArray();
+        for(TicketEntity ticketEntity : page.getResultList()) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", new JSONNumber(ticketEntity.id));
+            jsonObject.put("serialNumber", new JSONString(ticketEntity.serialNumber));
+            jsonObject.put("type", new JSONNumber(ticketEntity.type));
+            jsonObject.put("price", new JSONNumber(ticketEntity.price));
+            jsonObject.put("expire", new JSONString(ticketEntity.expire));
+            jsonObject.put("status", new JSONNumber(ticketEntity.status));
+            //
+            jsonArray.add(jsonObject);
+        }
+        context.set("data", jsonArray);
         return "success.json";
     }
 }
