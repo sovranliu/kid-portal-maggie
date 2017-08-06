@@ -45,7 +45,7 @@ public class FlightDiaryAction extends PortalUserAjaxAction {
 	@Override
 	public String doExecute(Visitor visitor, Context context) throws Exception {
 
-		String mobileNo = (String) context.get(CONTEXT_KEY_MOBILENO);
+		String mobileNo = String.valueOf(context.parameter(CONTEXT_KEY_MOBILENO));
 		//查询已使用票
 		List<TicketEntity> ticketEntityList = ticketService.getTicketsInfoByOwnerMobileNo(mobileNo);
 		if (ticketEntityList == null || ticketEntityList.isEmpty()) {
