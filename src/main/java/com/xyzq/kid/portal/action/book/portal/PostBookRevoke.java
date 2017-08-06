@@ -35,7 +35,7 @@ public class PostBookRevoke extends PortalUserAjaxAction {
 	
 	@Override
 	public String doExecute(Visitor visitor, Context context) throws Exception {
-		context.set("code", "-9");
+		context.set("code", -9);
 		String mobileNo=(String)context.get(CONTEXT_KEY_MOBILENO);
 		UserEntity user=userService.selectByMolieNo(mobileNo);
 		String serialNumber=(String)context.parameter("serialNumber");
@@ -44,7 +44,7 @@ public class PostBookRevoke extends PortalUserAjaxAction {
 		if(book!=null){
 			//1：改期申请，2：撤销申请
 			if(bookChangeRequestService.createRequest(book.getId(), "2", null, user.id, book.getBooktimeid(),"1")){
-				context.set("code", "0");
+				context.set("code", 0);
 			}
 		}
 		return "success.json";

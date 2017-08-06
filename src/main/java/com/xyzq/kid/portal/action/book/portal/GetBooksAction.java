@@ -50,29 +50,29 @@ public class GetBooksAction extends PortalUserAjaxAction{
 	public String doExecute(Visitor visitor, Context context) throws Exception {
 		String mobileNo=(String)context.get(CONTEXT_KEY_MOBILENO);
 		List<TicketEntity> ticketList=ticketService.getTicketsInfoByOwnerMobileNo(mobileNo);
-		List<Map<String,String>> mapList=new ArrayList<>();
+		List<Map<String,Object>> mapList=new ArrayList<>();
 		if(ticketList!=null&&ticketList.size()>0){
 			for(int i=0;i<ticketList.size();i++){
 				TicketEntity ticket=ticketList.get(i);
 				Book book=bookService.queryBookRecByTicketId(Integer.valueOf(ticket.id));
 				if(book!=null){
-					Map<String,String> bookMap=new HashMap<>();
-					bookMap.put("id", String.valueOf(i));
+					Map<String,Object> bookMap=new HashMap<>();
+					bookMap.put("id", book.getId());
 					String bookStatus=book.getBookstatus();//1：已预约，2：改期申请中，3：改期通过，4：改期拒绝，5：核销完成，6：撤销申请中，7：撤销通过，8：拒绝撤销
-					String status="0";//0：已预约 1：已过期 2：已核销 3：改期审核中 4：已撤销 5：撤销申请中
+					Integer status=0;//0：已预约 1：已过期 2：已核销 3：改期审核中 4：已撤销 5：撤销申请中
 					if(checkExpire(book.getBookdate())){
-						status="1";
+						status=1;
 					}else{
 						if(bookStatus.equals("1")||bookStatus.equals("3")||bookStatus.equals("4")||bookStatus.equals("8")){
-							status="0";
+							status=0;
 						}else if(bookStatus.equals("2")){
-							status="3";
+							status=3;
 						}else if(bookStatus.equals("6")){
-							status="5";
+							status=5;
 						}else if(bookStatus.equals("7")){
-							status="4";
+							status=4;
 						}else if(bookStatus.equals("5")){
-							status="2";
+							status=2;
 						}
 					}
 					BookTimeRepository repo=bookRepositoryService.queryByPrimaryKey(book.getBooktimeid());
@@ -94,7 +94,7 @@ public class GetBooksAction extends PortalUserAjaxAction{
 				}
 			}
 		}
-		context.set("code", "0");
+		context.set("code", 0);
 		context.set("data", gson.toJson(mapList));
 		return "success.json";
 	}

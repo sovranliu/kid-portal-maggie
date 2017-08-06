@@ -1,9 +1,10 @@
 package com.xyzq.kid.portal.action.book.portal;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.mysql.jdbc.StringUtils;
-import com.xyzq.kid.portal.action.user.portal.PortalUserAjaxAction;
 import com.xyzq.kid.logic.book.dao.po.Book;
 import com.xyzq.kid.logic.book.dao.po.BookTimeRepository;
 import com.xyzq.kid.logic.book.dao.po.BookTimeSpan;
@@ -15,12 +16,15 @@ import com.xyzq.kid.logic.ticket.entity.TicketEntity;
 import com.xyzq.kid.logic.ticket.service.TicketService;
 import com.xyzq.kid.logic.user.entity.UserEntity;
 import com.xyzq.kid.logic.user.service.UserService;
+import com.xyzq.kid.portal.action.user.portal.PortalUserAjaxAction;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
 
 @MaggieAction(path="kid/portal/submitBooking")
 public class SubmitBooking extends PortalUserAjaxAction {
+	
+	static Logger logger = LoggerFactory.getLogger(SubmitBooking.class);
 	
 	@Autowired
 	BookRepositoryService bookRepositoryService;
@@ -42,7 +46,7 @@ public class SubmitBooking extends PortalUserAjaxAction {
 
 	@Override
 	public String doExecute(Visitor visitor, Context context) throws Exception {
-		context.set("code", "-9");
+		context.set("code", -9);
 		String mobileNo=(String)context.get(CONTEXT_KEY_MOBILENO);
 		UserEntity user=userService.selectByMolieNo(mobileNo);
 		String serialNumber=(String)context.parameter("serialNumber");
@@ -64,13 +68,13 @@ public class SubmitBooking extends PortalUserAjaxAction {
 					if(type.equals("0")){//预约提交
 						if(bookService.createBook(serialNumber, repo.getId(), user.id)){
 							ticketService.useTickets(ticket.id);//票状态更新为已使用
-							context.set("code", "0");
+							context.set("code", 0);
 						}
 					}else if(type.equals("1")){//改期提交
 						Book book=bookService.queryBookRecByTicketId(ticket.id);
 						if(book!=null){
 							if(bookChangeRequestService.createRequest(book.getId(), "1", null, user.id, repo.getId(),"1")){
-								context.set("code", "0");
+								context.set("code", 0);
 							}
 						}
 					}
