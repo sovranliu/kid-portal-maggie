@@ -30,13 +30,14 @@ public class GiveTicketAction extends PortalUserAjaxAction {
     @Override
     public String doExecute(Visitor visitor, Context context) throws Exception {
 
-
         String serialNumber = (String) context.parameter("serialNumber");
         TicketEntity ticketEntity = ticketService.getTicketsInfoBySerialno(serialNumber);
         String mobileNo = (String)context.parameter("phone");
 
-        ticketService.handselTickets(ticketEntity.id, mobileNo, ticketEntity.telephone);
-
+        String result = ticketService.handselTickets(ticketEntity.id, mobileNo, ticketEntity.telephone);
+        if(!"success".equals(result)) {
+            context.set("code", -1);
+        }
         return "success.json";
     }
 }
