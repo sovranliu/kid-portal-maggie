@@ -48,7 +48,7 @@ public class GetBooksAction extends PortalUserAjaxAction{
 		List<TicketEntity> ticketList=ticketService.getTicketsInfoByOwnerMobileNo(mobileNo);
 		List<Map<String,String>> mapList=new ArrayList<>();
 		if(ticketList!=null&&ticketList.size()>0){
-			for(int i=0;i<=ticketList.size();i++){
+			for(int i=0;i<ticketList.size();i++){
 				TicketEntity ticket=ticketList.get(i);
 				Book book=bookService.queryBookRecByTicketId(Integer.valueOf(ticket.id));
 				if(book!=null){
