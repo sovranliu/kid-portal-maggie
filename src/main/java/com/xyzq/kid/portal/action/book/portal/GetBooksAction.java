@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.gson.Gson;
@@ -27,6 +29,8 @@ import com.xyzq.simpson.maggie.framework.Visitor;
 
 @MaggieAction(path="kid/portal/getBooks")
 public class GetBooksAction extends PortalUserAjaxAction{
+	
+	static Logger logger = LoggerFactory.getLogger(GetBooksAction.class);
 	
 	@Autowired
 	BookService bookService;

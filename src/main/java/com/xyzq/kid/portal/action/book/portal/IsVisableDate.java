@@ -1,5 +1,7 @@
 package com.xyzq.kid.portal.action.book.portal;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.mysql.jdbc.StringUtils;
@@ -12,6 +14,8 @@ import com.xyzq.simpson.maggie.framework.Visitor;
 
 @MaggieAction(path="kid/portal/isViableDate")
 public class IsVisableDate extends PortalUserAjaxAction {
+	
+	static Logger logger = LoggerFactory.getLogger(IsVisableDate.class);
 	
 	@Autowired
 	DateUnviableService dateUnviableService;
