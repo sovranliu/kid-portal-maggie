@@ -50,7 +50,7 @@ public class GetBooksAction extends PortalUserAjaxAction{
 		if(ticketList!=null&&ticketList.size()>0){
 			for(int i=0;i<=ticketList.size();i++){
 				TicketEntity ticket=ticketList.get(i);
-				Book book=bookService.queryBookRecByTicketId(Integer.valueOf(ticket.serialNumber));
+				Book book=bookService.queryBookRecByTicketId(Integer.valueOf(ticket.id));
 				if(book!=null){
 					Map<String,String> bookMap=new HashMap<>();
 					bookMap.put("id", String.valueOf(i));
@@ -89,11 +89,9 @@ public class GetBooksAction extends PortalUserAjaxAction{
 					mapList.add(bookMap);
 				}
 			}
-			if(mapList.size()>0){
-				context.set("code", "0");
-				context.set("data", gson.toJson(mapList));
-			}
 		}
+		context.set("code", "0");
+		context.set("data", gson.toJson(mapList));
 		return "success.json";
 	}
 	/**

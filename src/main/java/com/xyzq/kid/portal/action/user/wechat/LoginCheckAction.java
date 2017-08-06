@@ -37,7 +37,7 @@ public class LoginCheckAction implements IAction {
             return "success.json";
         }
         visitor.setCookie("sid", sId);
-        context.set("data", sId);
+        context.set("data", "\"" + sId + "\"");
         return "success.json";
     }
 }
