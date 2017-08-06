@@ -31,7 +31,7 @@ public class LoginCheckAction implements IAction {
      */
     @Override
     public String execute(Visitor visitor, Context context) throws Exception {
-        String code = (String) context.get("code");
+        String code = (String) context.parameter("code");
         String sId = cache.get("login-" + code);
         if(null == sId) {
             return "success.json";
