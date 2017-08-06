@@ -1,5 +1,6 @@
 package com.xyzq.kid.portal.action.ticket;
 
+import com.xyzq.kid.logic.ticket.entity.TicketEntity;
 import com.xyzq.kid.portal.action.user.portal.PortalUserAjaxAction;
 import com.xyzq.kid.logic.ticket.service.TicketService;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
@@ -30,10 +31,11 @@ public class GiveTicketAction extends PortalUserAjaxAction {
     public String doExecute(Visitor visitor, Context context) throws Exception {
 
 
-        int ticketId = (Integer) context.parameter("serialNumber", -1);
+        String serialNumber = (String) context.parameter("serialNumber");
+        TicketEntity ticketEntity = ticketService.getTicketsInfoBySerialno(serialNumber);
         String mobileNo = (String)context.parameter("phone");
 
-        ticketService.handselTickets(ticketId, mobileNo);
+        ticketService.handselTickets(ticketEntity.id, mobileNo, ticketEntity.telephone);
 
         return "success.json";
     }
