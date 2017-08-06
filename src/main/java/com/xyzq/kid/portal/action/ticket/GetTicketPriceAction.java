@@ -1,4 +1,4 @@
-package com.xyzq.kid.portal.action.ticket.portal;
+package com.xyzq.kid.portal.action.ticket;
 
 import com.xyzq.kid.logic.config.service.ConfigService;
 import com.xyzq.kid.portal.action.user.portal.PortalUserAjaxAction;

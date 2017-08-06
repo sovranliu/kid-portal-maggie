@@ -1,21 +1,16 @@
-package com.xyzq.kid.portal.action.ticket.wechat;
+package com.xyzq.kid.portal.action.ticket;
 
 import com.xyzq.kid.portal.action.user.portal.PortalUserAjaxAction;
-import com.xyzq.kid.logic.config.common.ConfigCommon;
-import com.xyzq.kid.logic.config.service.ConfigService;
-import com.xyzq.kid.logic.ticket.entity.TicketEntity;
 import com.xyzq.kid.logic.ticket.service.TicketService;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.math.BigDecimal;
-
 /**
  * 增票
  */
-@MaggieAction(path = "kid/wechat/giveTicket")
+@MaggieAction(path = "kid/portal/giveTicket")
 public class GiveTicketAction extends PortalUserAjaxAction {
     /**
      * Action中只支持Autowired注解引入SpringBean

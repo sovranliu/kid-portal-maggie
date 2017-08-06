@@ -1,7 +1,7 @@
-package com.xyzq.kid.portal.action.ticket.portal;
+package com.xyzq.kid.portal.action.ticket;
 
-import com.xyzq.kid.portal.action.user.portal.PortalUserAjaxAction;
 import com.xyzq.kid.logic.ticket.service.TicketService;
+import com.xyzq.kid.portal.action.user.portal.PortalUserAjaxAction;
 import com.xyzq.simpson.base.json.JSONObject;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 增票
  */
 @MaggieAction(path = "kid/portal/getTickets")
-public class GetTicketsAction extends PortalUserAjaxAction{
+public class GetTicketListAction extends PortalUserAjaxAction{
     /**
      * Action中只支持Autowired注解引入SpringBean
      */
@@ -29,9 +29,15 @@ public class GetTicketsAction extends PortalUserAjaxAction{
      */
     @Override
     public String doExecute(Visitor visitor, Context context) throws Exception {
-        String mobileNo = (String) context.get(CONTEXT_KEY_MOBILENO);
+        String serialNumber  = (String) context.get("serialNumber ");
+        String telephone = (String) context.get("telephone");
+        String startTime = (String) context.get("startTime ");
+        String endTime  = (String) context.get("endTime ");
+        int status = (Integer) context.get("status");
+        int begin = (Integer) context.get("begin");
+        int limit = (Integer) context.get("limit");
 
-        context.set("data", JSONObject.convertFromObject(ticketService.getTicketsInfoByOwnerMobileNo(mobileNo)));
+        context.set("data", JSONObject.convertFromObject(ticketService.queryTicketByCond(serialNumber, telephone, startTime, endTime, status, begin, limit)));
         return "success.json";
     }
 }

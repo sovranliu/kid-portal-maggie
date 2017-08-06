@@ -1,25 +1,21 @@
-package com.xyzq.kid.portal.action.ticket.wechat;
+package com.xyzq.kid.portal.action.ticket;
 
 import com.xyzq.kid.portal.action.user.portal.PortalUserAjaxAction;
 import com.xyzq.kid.logic.config.common.ConfigCommon;
 import com.xyzq.kid.logic.config.service.ConfigService;
 import com.xyzq.kid.logic.ticket.entity.TicketEntity;
 import com.xyzq.kid.logic.ticket.service.TicketService;
-import com.xyzq.simpson.base.json.JSONObject;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
-import com.xyzq.simpson.maggie.framework.action.core.IAction;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 范例动作
  */
-@MaggieAction(path = "kid/wechat/buyTicket")
+@MaggieAction(path = "kid/portal/buyTicket")
 public class BuyTicketAction extends PortalUserAjaxAction {
     /**
      * Action中只支持Autowired注解引入SpringBean
@@ -59,11 +55,11 @@ public class BuyTicketAction extends PortalUserAjaxAction {
 //
 //        int type = (Integer)context.parameter("ticketType", -1);
 //        if(type == TicketEntity.TICKET_TYPE_SINGLE) {
-//            int price = Integer.parseInt(configService.selectContentByName(ConfigCommon.PRICE_SINGLE));
+//            int price = Integer.parseInt(configService.load(ConfigCommon.FEE_SINGLETICKET));
 //            ticketEntity.price = new BigDecimal(price);
 //            ticketService.buySingleTickets(ticketEntity);
 //        } else if(type == TicketEntity.TICKET_TYPE_GROUP) {
-//            int price = Integer.parseInt(configService.selectContentByName(ConfigCommon.PRICE_GROUP));
+//            int price = Integer.parseInt(configService.load(ConfigCommon.FEE_GROUPTICKET));
 //            ticketEntity.price = new BigDecimal(price);
 //            int num = (Integer)context.parameter("ticketNum", -1);
 //            ticketService.buyGroupleTickets(ticketEntity, num);
