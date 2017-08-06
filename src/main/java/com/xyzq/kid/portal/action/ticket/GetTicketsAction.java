@@ -18,7 +18,7 @@ import com.xyzq.simpson.maggie.framework.Visitor;
 /**
  * 增票
  */
-@MaggieAction(path = "kid/console/getTickets")
+@MaggieAction(path = "kid/portal/getTickets")
 public class GetTicketsAction extends PortalUserAjaxAction {
     /**
      * Action中只支持Autowired注解引入SpringBean

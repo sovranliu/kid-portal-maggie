@@ -16,7 +16,7 @@ import com.xyzq.simpson.maggie.framework.action.core.IAction;
 /**
  * 范例动作
  */
-@MaggieAction(path = "kid/console/getTicketPrice")
+@MaggieAction(path = "kid/portal/getTicketPrice")
 public class GetTicketPriceAction implements IAction {
     /**
      * Action中只支持Autowired注解引入SpringBean
