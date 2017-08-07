@@ -88,7 +88,6 @@ public class GetBooksAction extends PortalUserAjaxAction{
 							}
 						}
 					}
-					mapList.sort(c);
 					bookMap.put("status", status);
 					bookMap.put("expire", book.getBookdate());
 					bookMap.put("serialNumber", String.valueOf(ticket.serialNumber));
@@ -96,6 +95,7 @@ public class GetBooksAction extends PortalUserAjaxAction{
 				}
 			}
 		}
+		mapList.sort(c);
 		context.set("code", 0);
 		context.set("data", gson.toJson(mapList));
 		return "success.json";
