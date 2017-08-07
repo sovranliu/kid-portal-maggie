@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -87,6 +88,7 @@ public class GetBooksAction extends PortalUserAjaxAction{
 							}
 						}
 					}
+					mapList.sort(c);
 					bookMap.put("status", status);
 					bookMap.put("expire", book.getBookdate());
 					bookMap.put("serialNumber", String.valueOf(ticket.serialNumber));
@@ -98,6 +100,19 @@ public class GetBooksAction extends PortalUserAjaxAction{
 		context.set("data", gson.toJson(mapList));
 		return "success.json";
 	}
+	
+	static Comparator<Map<String,Object>> c=new Comparator<Map<String,Object>>() {
+		@Override
+		public int compare(Map<String, Object> o1,
+				Map<String, Object> o2) {
+			if((Integer)o1.get("status")<(Integer)o2.get("status")){
+				return -1;
+			}else{
+				return 1;
+			}
+		}
+	};
+	
 	/**
 	 * 验证预约时间是否已过期
 	 * @param bookDate
@@ -115,15 +130,12 @@ public class GetBooksAction extends PortalUserAjaxAction{
 			e.printStackTrace();
 		}
 		
-//		System.out.println(sdf.format(bookCalendar.getTime()));
-		
 		Calendar todayCalendar=Calendar.getInstance();
 		todayCalendar.setTime(new Date());
 		todayCalendar.set(Calendar.HOUR_OF_DAY, 23);
 		todayCalendar.set(Calendar.MINUTE, 59);
 		todayCalendar.set(Calendar.SECOND, 59);
 		
-//		System.out.println(sdf.format(todayCalendar.getTime()));
 		if(bookCalendar.before(todayCalendar)){
 			return true;
 		}else{
