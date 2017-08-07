@@ -1,5 +1,10 @@
 package com.xyzq.kid.portal.action.book.portal;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +48,8 @@ public class SubmitBooking extends PortalUserAjaxAction {
 	
 	@Autowired
 	BookService bookService;
+	
+	static SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
 	@Override
 	public String doExecute(Visitor visitor, Context context) throws Exception {
@@ -62,7 +69,7 @@ public class SubmitBooking extends PortalUserAjaxAction {
 			String bookDate=year+"-"+month+"-"+day;
 			String timeSpan=start+"-"+end;
 			BookTimeSpan bs=bookTimeSpanService.queryByTimeSpan(timeSpan);
-			if(bs!=null){
+			if(checkDate(bookDate,start)&&bs!=null){
 				BookTimeRepository repo=bookRepositoryService.queryRepositoryByDateAndTimeSpan(bookDate, bs.getId());
 				if(!StringUtils.isNullOrEmpty(type)){
 					if(type.equals("0")){//预约提交
@@ -82,6 +89,30 @@ public class SubmitBooking extends PortalUserAjaxAction {
 			}
 		}
 		return "success.json";
+	}
+	
+	
+	static boolean  checkDate(String bookDate,String startTime) throws ParseException{
+		boolean flag=false;
+		Date bookTime=sdf.parse(bookDate + " "+startTime);
+		Calendar bookCal=Calendar.getInstance();
+		bookCal.setTime(bookTime);
+		if(System.currentTimeMillis()-bookCal.getTimeInMillis()<0){
+			flag=true;
+		}
+		return flag;
+	}
+	
+	public static void main(String[] args) {
+		try {
+			if(checkDate("2017-08-08","09:00")){
+				System.out.println("未过期");
+			}else{
+				System.out.println("已过期");
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
