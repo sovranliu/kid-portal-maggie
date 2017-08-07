@@ -6,6 +6,8 @@ import com.xyzq.kid.logic.ticket.service.TicketService;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -19,6 +21,10 @@ public class GiveTicketAction extends PortalUserAjaxAction {
     @Autowired
     private TicketService ticketService;
 
+    /**
+     * 日志对象
+     */
+    public static Logger logger = LoggerFactory.getLogger(GiveTicketAction.class);
 
     /**
      * 动作执行
@@ -31,11 +37,13 @@ public class GiveTicketAction extends PortalUserAjaxAction {
     public String doExecute(Visitor visitor, Context context) throws Exception {
 
         String serialNumber = (String) context.parameter("serialNumber");
+        logger.info("[kid/portal/giveTicket]-in:" + serialNumber);
         TicketEntity ticketEntity = ticketService.getTicketsInfoBySerialno(serialNumber);
         String mobileNo = (String)context.parameter("phone");
 
         String result = ticketService.handselTickets(ticketEntity.id, mobileNo, ticketEntity.telephone);
         if(!"success".equals(result)) {
+            context.set("msg", result);
             context.set("code", -1);
         }
         return "success.json";

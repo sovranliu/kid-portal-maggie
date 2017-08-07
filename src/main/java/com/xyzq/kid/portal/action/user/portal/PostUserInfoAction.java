@@ -1,12 +1,15 @@
 package com.xyzq.kid.portal.action.user.portal;
 
 import com.xyzq.kid.CommonTool;
+import com.xyzq.kid.portal.action.ticket.GetTicketsAction;
 import com.xyzq.kid.portal.action.user.portal.PortalUserAjaxAction;
 import com.xyzq.kid.logic.user.entity.UserEntity;
 import com.xyzq.kid.logic.user.service.UserService;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
@@ -22,6 +25,10 @@ public class PostUserInfoAction extends PortalUserAjaxAction {
     @Autowired
     private UserService userService;
 
+    /**
+     * 日志对象
+     */
+    public static Logger logger = LoggerFactory.getLogger(PostUserInfoAction.class);
 
     /**
      * 动作执行
@@ -38,6 +45,7 @@ public class PostUserInfoAction extends PortalUserAjaxAction {
         userEntity.sex = (Integer)context.parameter("sex", 0);
         userEntity.address = (String)context.parameter("address", "");
         userEntity.subscribetime = CommonTool.dataToStringYMDHMS(new Date());
+        logger.info("[kid/portal/postUserInfo]-in:" + userEntity.toString());
         userService.updateByMobileNo(userEntity);
         return "success.json";
     }

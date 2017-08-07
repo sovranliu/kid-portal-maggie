@@ -11,6 +11,8 @@ import com.xyzq.simpson.base.json.JSONString;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -24,6 +26,10 @@ public class GetTicketListAction extends PortalUserAjaxAction{
     @Autowired
     private TicketService ticketService;
 
+    /**
+     * 日志对象
+     */
+    public static Logger logger = LoggerFactory.getLogger(GetTicketListAction.class);
 
     /**
      * 动作执行
@@ -35,6 +41,7 @@ public class GetTicketListAction extends PortalUserAjaxAction{
     @Override
     public String doExecute(Visitor visitor, Context context) throws Exception {
         String telephone = (String) context.get(PortalUserAjaxAction.CONTEXT_KEY_MOBILENO);
+        logger.info("[kid/portal/getTickets]-in:" + telephone);
         Page<TicketEntity> page = ticketService.queryTicketByCond(null, telephone, null, null, null, 0, 1000);
         JSONArray jsonArray = new JSONArray();
         for(TicketEntity ticketEntity : page.getResultList()) {

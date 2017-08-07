@@ -1,15 +1,14 @@
 package com.xyzq.kid.portal.action.ticket;
 
 import com.xyzq.kid.portal.action.user.portal.PortalUserAjaxAction;
-import com.xyzq.kid.logic.config.service.ConfigService;
-import com.xyzq.kid.logic.ticket.service.TicketService;
 import com.xyzq.simpson.base.etc.Base64;
 import com.xyzq.simpson.base.json.JSONObject;
 import com.xyzq.simpson.base.json.JSONString;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -17,6 +16,10 @@ import org.springframework.beans.factory.annotation.Value;
  */
 @MaggieAction(path = "kid/portal/buyTicket")
 public class BuyTicketAction extends PortalUserAjaxAction {
+    /**
+     * 日志对象
+     */
+    public static Logger logger = LoggerFactory.getLogger(BuyTicketAction.class);
     /**
      * 微信购票页面地址
      */
@@ -40,6 +43,7 @@ public class BuyTicketAction extends PortalUserAjaxAction {
     public String doExecute(Visitor visitor, Context context) throws Exception {
         String url = url_page_buyticket_wechat + "?type=" + context.parameter("ticketType") + "&mobileNo=" + context.get(PortalUserAjaxAction.CONTEXT_KEY_MOBILENO);
         String qrCodeUrl = url_image_qrcode + Base64.encode(url) + ".jpg";
+        logger.info("[kid/portal/buyTicket]-in:url[" + url + "],qrCodeUrl[" + qrCodeUrl + "]");
         JSONObject json = new JSONObject();
         json.put("qrcode", new JSONString(qrCodeUrl));
         context.set("data", json);

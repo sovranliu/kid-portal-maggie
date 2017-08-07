@@ -12,6 +12,8 @@ import com.xyzq.simpson.base.json.JSONObject;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -36,6 +38,11 @@ public class FlightDiaryAction extends PortalUserAjaxAction {
 	private ConfigService configService;
 
 	/**
+	 * 日志对象
+	 */
+	public static Logger logger = LoggerFactory.getLogger(FlightDiaryAction.class);
+
+	/**
 	 * 动作执行
 	 *
 	 * @param visitor 访问者
@@ -46,6 +53,7 @@ public class FlightDiaryAction extends PortalUserAjaxAction {
 	public String doExecute(Visitor visitor, Context context) throws Exception {
 
 		String mobileNo = String.valueOf(context.get("mobileNo"));
+		logger.info("[kid/portal/getFlightDiary]-in:" + mobileNo);
 		//查询已使用票
 		List<TicketEntity> ticketEntityList = ticketService.getTicketsInfoByOwnerMobileNo(mobileNo);
 		if (ticketEntityList == null || ticketEntityList.isEmpty()) {
@@ -76,6 +84,7 @@ public class FlightDiaryAction extends PortalUserAjaxAction {
 		resultMap.put("canPurchasePrice", usedTIcketSerialNoList == null ? 0 : (usedTIcketSerialNoList.size() - hasPurchasedTicketSerialNoMap.size()) * accumulateTime);
 		context.set("code", "0");
 		context.set("data", JSONObject.convertFromTable(resultMap));
+		logger.info("[kid/portal/getFlightDiary]-out:" + JSONObject.convertFromTable(resultMap));
 		return "success.json";
 	}
 

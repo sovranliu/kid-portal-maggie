@@ -1,10 +1,13 @@
 package com.xyzq.kid.portal.action.user.portal;
 
 import com.xyzq.kid.logic.user.service.UserService;
+import com.xyzq.kid.portal.action.ticket.GetTicketsAction;
 import com.xyzq.simpson.base.json.JSONObject;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -17,6 +20,11 @@ public class GetUserListAction extends PortalUserAjaxAction {
      */
     @Autowired
     private UserService userService;
+
+    /**
+     * 日志对象
+     */
+    public static Logger logger = LoggerFactory.getLogger(GetUserListAction.class);
 
 
     /**
@@ -32,6 +40,7 @@ public class GetUserListAction extends PortalUserAjaxAction {
         String telephone = (String) context.get("telephone");
         int begin = (Integer) context.get("begin");
         int limit = (Integer) context.get("limit");
+        logger.info("[kid/portal/getUserList]-in:[begin:" + begin + "],limit[" + limit + "],userName[" + userName + "],telephone[" + telephone + "]");
         context.set("data", JSONObject.convertFromObject(userService.getUserList(userName, telephone, begin, limit)));
         return "success.json";
     }
