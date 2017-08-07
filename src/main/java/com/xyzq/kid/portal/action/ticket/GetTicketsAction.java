@@ -44,11 +44,11 @@ public class GetTicketsAction extends PortalUserAjaxAction {
         	 for(TicketEntity ticket:ticketList){
              	Map<String,Object> map=new HashMap<>();
              	int count = ticketService.queryTickethandselCount(ticket.id);
-             	if(count > 0) {
-                    map.put("isGive", false);
-                } else {
-                    map.put("isGive", true);
-                }
+                 if(count == 0 && ticket.type == TicketEntity.TICKET_TYPE_GROUP) {
+                     map.put("isGive", true);
+                 } else {
+                     map.put("isGive", false);
+                 }
              	map.put("id",ticket.id);
              	map.put("serialNumber", ticket.serialNumber);
              	map.put("type", ticket.type);
