@@ -1,5 +1,6 @@
 package com.xyzq.kid.portal.action.ticket;
 
+import com.xyzq.kid.CommonTool;
 import com.xyzq.kid.logic.ticket.entity.TicketEntity;
 import com.xyzq.kid.portal.action.user.portal.PortalUserAjaxAction;
 import com.xyzq.kid.logic.ticket.service.TicketService;
@@ -41,7 +42,7 @@ public class GiveTicketAction extends PortalUserAjaxAction {
         TicketEntity ticketEntity = ticketService.getTicketsInfoBySerialno(serialNumber);
         String mobileNo = (String)context.parameter("phone");
 
-        String result = ticketService.handselTickets(ticketEntity.id, mobileNo, ticketEntity.telephone);
+        String result = ticketService.handselTickets(ticketEntity.id, mobileNo, ticketEntity.telephone, CommonTool.HANDLE_GIVE);
         if(!"success".equals(result)) {
             context.set("msg", result);
             context.set("code", -1);
