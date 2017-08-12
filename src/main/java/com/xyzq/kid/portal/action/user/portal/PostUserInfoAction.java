@@ -52,7 +52,7 @@ public class PostUserInfoAction extends PortalUserAjaxAction {
         logger.info("[kid/portal/postUserInfo]-in:" + userEntity.toString());
         userService.updateByMobileNo(userEntity);
 
-        String telephoneNew = (String)context.parameter("telephoneNew");
+        String telephoneNew = (String)context.parameter("telephone");
         if(null != telephoneNew && telephoneNew.length() > 0 && !telephoneNew.equals(userEntity.telephone)) {
             //更新用户手机号
             userService.updateMobileNo(telephoneNew, userEntity.telephone);
