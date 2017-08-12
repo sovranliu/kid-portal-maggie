@@ -5,6 +5,7 @@ import java.util.*;
 
 import com.xyzq.simpson.base.text.Text;
 import com.xyzq.simpson.base.time.DateTime;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,8 @@ public class GetBooksAction extends PortalUserAjaxAction{
 				Book book=bookService.queryBookRecByTicketId(Integer.valueOf(ticket.id));
 				if(book!=null){
 					Map<String,Object> bookMap=new HashMap<>();
+					String type=ticket.type.equals("1")?"1":"0";//1:个人票，0：团体票
+					bookMap.put("type", type);
 					bookMap.put("id", book.getId());
 					String bookStatus=book.getBookstatus();//1：已预约，2：改期申请中，3：改期通过，4：改期拒绝，5：核销完成，6：撤销申请中，7：撤销通过，8：拒绝撤销
 					Integer status=0;//0：已预约 1：已过期 2：已核销 3：改期审核中 4：已撤销 5：撤销申请中
