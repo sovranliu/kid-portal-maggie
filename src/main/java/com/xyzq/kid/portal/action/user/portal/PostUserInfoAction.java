@@ -1,6 +1,7 @@
 package com.xyzq.kid.portal.action.user.portal;
 
 import com.xyzq.kid.CommonTool;
+import com.xyzq.kid.logic.ticket.service.TicketService;
 import com.xyzq.kid.portal.action.ticket.GetTicketsAction;
 import com.xyzq.kid.portal.action.user.portal.PortalUserAjaxAction;
 import com.xyzq.kid.logic.user.entity.UserEntity;
@@ -25,6 +26,9 @@ public class PostUserInfoAction extends PortalUserAjaxAction {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private TicketService ticketService;
+
     /**
      * 日志对象
      */
@@ -47,6 +51,15 @@ public class PostUserInfoAction extends PortalUserAjaxAction {
         userEntity.subscribetime = CommonTool.dataToStringYMDHMS(new Date());
         logger.info("[kid/portal/postUserInfo]-in:" + userEntity.toString());
         userService.updateByMobileNo(userEntity);
+
+        String telephoneNew = (String)context.parameter("telephoneNew");
+        if(null != telephoneNew && telephoneNew.length() > 0 && !telephoneNew.equals(userEntity.telephone)) {
+            //更新用户手机号
+            userService.updateMobileNo(telephoneNew, userEntity.telephone);
+            //更新ticket表手机号
+            ticketService.updateMobileNo(telephoneNew, userEntity.telephone);
+        }
+
         return "success.json";
     }
 }
