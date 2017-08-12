@@ -1,5 +1,6 @@
 package com.xyzq.kid.portal.action.ticket;
 
+import com.sun.org.apache.bcel.internal.generic.IADD;
 import com.xyzq.kid.logic.config.common.ConfigCommon;
 import com.xyzq.kid.logic.config.service.ConfigService;
 import com.xyzq.kid.logic.record.entity.RecordEntity;
@@ -12,8 +13,7 @@ import com.xyzq.simpson.base.json.JSONObject;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.xyzq.simpson.maggie.framework.action.core.IAction;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -24,9 +24,10 @@ import java.util.Map;
 
 /**
  * 飞行日记获取
+ * http://solution.slfuture.cn/kid/static/record/2017-07/201707271830459527.mp4
  */
 @MaggieAction(path = "kid/portal/getFlightDiary")
-public class FlightDiaryAction extends PortalUserAjaxAction {
+public class FlightDiaryAction implements IAction {
 	/**
 	 * Action中只支持Autowired注解引入SpringBean
 	 */
@@ -38,11 +39,6 @@ public class FlightDiaryAction extends PortalUserAjaxAction {
 	private ConfigService configService;
 
 	/**
-	 * 日志对象
-	 */
-	public static Logger logger = LoggerFactory.getLogger(FlightDiaryAction.class);
-
-	/**
 	 * 动作执行
 	 *
 	 * @param visitor 访问者
@@ -50,10 +46,9 @@ public class FlightDiaryAction extends PortalUserAjaxAction {
 	 * @return 下一步动作，包括后缀名，null表示结束
 	 */
 	@Override
-	public String doExecute(Visitor visitor, Context context) throws Exception {
+	public String execute(Visitor visitor, Context context) throws Exception {
 
-		String mobileNo = String.valueOf(context.get("mobileNo"));
-		logger.info("[kid/portal/getFlightDiary]-in:" + mobileNo);
+		String mobileNo = String.valueOf(context.parameter("mobileNo"));
 		//查询已使用票
 		List<TicketEntity> ticketEntityList = ticketService.getTicketsInfoByOwnerMobileNo(mobileNo);
 		if (ticketEntityList == null || ticketEntityList.isEmpty()) {
@@ -84,7 +79,6 @@ public class FlightDiaryAction extends PortalUserAjaxAction {
 		resultMap.put("canPurchasePrice", usedTIcketSerialNoList == null ? 0 : (usedTIcketSerialNoList.size() - hasPurchasedTicketSerialNoMap.size()) * accumulateTime);
 		context.set("code", "0");
 		context.set("data", JSONObject.convertFromTable(resultMap));
-		logger.info("[kid/portal/getFlightDiary]-out:" + JSONObject.convertFromTable(resultMap));
 		return "success.json";
 	}
 
