@@ -28,12 +28,7 @@ import java.util.Map;
  * http://solution.slfuture.cn/kid/static/record/2017-07/201707271830459527.mp4
  */
 @MaggieAction(path = "kid/portal/getFlightDiary")
-public class FlightDiaryAction implements IAction {
-	/**
-	 * 飞行日志上传后下载地址
-	 */
-	@Value("${KID.UPLOAD.URL.RECORD}")
-	private String recordUploadUrl;
+public class FlightDiaryAction extends PortalUserAjaxAction {
 	/**
 	 * Action中只支持Autowired注解引入SpringBean
 	 */
@@ -52,9 +47,9 @@ public class FlightDiaryAction implements IAction {
 	 * @return 下一步动作，包括后缀名，null表示结束
 	 */
 	@Override
-	public String execute(Visitor visitor, Context context) throws Exception {
+	public String doExecute(Visitor visitor, Context context) throws Exception {
 
-		String mobileNo = String.valueOf(context.parameter("mobileNo"));
+		String mobileNo = String.valueOf(context.get(CONTEXT_KEY_MOBILENO));
 		//查询已使用票
 		List<TicketEntity> ticketEntityList = ticketService.getTicketsInfoByOwnerMobileNo(mobileNo);
 		if (ticketEntityList == null || ticketEntityList.isEmpty()) {
@@ -69,7 +64,24 @@ public class FlightDiaryAction implements IAction {
 				usedTIcketSerialNoList.add(entity.serialNumber);
 			}
 		}
-		List<RecordEntity> canPurchaseList = recordService.findBy(usedTIcketSerialNoList, RecordEntity.UNPURCHASED);
+		List<Map<String, Object>> canPurchaseMapList = new ArrayList<Map<String, Object>>();
+		if (usedTIcketSerialNoList != null) {
+			//如果存在使用过的票，则分别查询每个票下面的未购买视频列表。
+			for (String serialNo : usedTIcketSerialNoList) {
+				List<String> serialNoList = new ArrayList<>();
+				serialNoList.add(serialNo);
+				List<RecordEntity> unPurchaseList = recordService.findBy(serialNoList, RecordEntity.UNPURCHASED);
+				//如果不存在视频，则不返回
+				if (unPurchaseList != null && unPurchaseList.size() > 0) {
+					Map<String, Object> map = new HashMap<>();
+					map.put("serialNo", serialNo);
+					map.put("records", transToMap(unPurchaseList, context));
+					canPurchaseMapList.add(map);
+				}
+
+			}
+		}
+//		List<RecordEntity> unPurchaseList = recordService.findBy(usedTIcketSerialNoList, RecordEntity.UNPURCHASED);
 		List<RecordEntity> hasPurchasedList = recordService.findBy(usedTIcketSerialNoList, RecordEntity.PURCHASED);
 		Integer price = Integer.valueOf(configService.fetch(ConfigCommon.FEE_RECORD));
 		Integer accumulateTime = Integer.valueOf(configService.fetch(ConfigCommon.TICKET_ACCUMULATE_TIME));
@@ -78,8 +90,10 @@ public class FlightDiaryAction implements IAction {
 		for (RecordEntity record : hasPurchasedList) {
 			hasPurchasedTicketSerialNoMap.put(record.serialNo, record.serialNo);
 		}
+
+
 		Map<String, Object> resultMap = new HashMap<>();
-		resultMap.put("canPurchase", transToMap(canPurchaseList, context));
+		resultMap.put("canPurchase", canPurchaseMapList);
 		resultMap.put("hasPurchased", transToMap(hasPurchasedList, context));
 		resultMap.put("timeDuration", usedTIcketSerialNoList == null ? 0 : usedTIcketSerialNoList.size() * accumulateTime);
 		resultMap.put("canPurchasePrice", usedTIcketSerialNoList == null ? 0 : (usedTIcketSerialNoList.size() - hasPurchasedTicketSerialNoMap.size()) * price);
@@ -90,7 +104,7 @@ public class FlightDiaryAction implements IAction {
 
 	private List<Map<String, Object>> transToMap(List<RecordEntity> entities, Context context) {
 		List<Map<String, Object>> maps = new ArrayList<Map<String, Object>>();
-		if (entities != null && entities.size()>0) {
+		if (entities != null && entities.size() > 0) {
 			for (RecordEntity entity : entities) {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("id", String.valueOf(entity.id));
