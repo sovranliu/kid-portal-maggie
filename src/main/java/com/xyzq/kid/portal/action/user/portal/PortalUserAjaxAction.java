@@ -72,6 +72,7 @@ public abstract class PortalUserAjaxAction implements IAction {
             }
             else {
                 logger.info("session is empty, sid = " + sId);
+                visitor.setCookie("sid", null);
             }
         }
         context.set("redirect", url_page_login_portal);
