@@ -22,11 +22,11 @@ import java.util.Map;
  * Created by Brann on 17/7/29.
  */
 @MaggieAction(path = "kid/portal/getMateriel")
-public class GetMaterielAction extends PortalUserAjaxAction {
+public class GetMaterielAction implements IAction {
 	@Autowired
 	private CMSService cmsService;
 
-	Gson gson=new Gson();
+	Gson gson = new Gson();
 
 	/**
 	 * 日志对象
@@ -35,16 +35,16 @@ public class GetMaterielAction extends PortalUserAjaxAction {
 
 
 	@Override
-	public String doExecute(Visitor visitor, Context context) throws Exception {
+	public String execute(Visitor visitor, Context context) throws Exception {
 
 		Integer categoryid = (Integer) context.parameter("type", 0);
 		logger.info("[kid/portal/getMateriel]-in:categoryid[" + categoryid + "]");
 
-		List<Map<String,Object>> mapList=new ArrayList<>();
+		List<Map<String, Object>> mapList = new ArrayList<>();
 
 		List<CMSEntity> cmsEntityList = cmsService.getCMSByCategoryid(categoryid);
-		if(null != cmsEntityList && cmsEntityList.size() > 0) {
-			for(CMSEntity cmsEntity : cmsEntityList) {
+		if (null != cmsEntityList && cmsEntityList.size() > 0) {
+			for (CMSEntity cmsEntity : cmsEntityList) {
 				Map<String, Object> map = new HashMap<>();
 				map.put("title", cmsEntity.title);
 				map.put("content", cmsEntity.content);
@@ -53,11 +53,8 @@ public class GetMaterielAction extends PortalUserAjaxAction {
 				mapList.add(map);
 			}
 		}
-
 		context.set("data", gson.toJson(mapList));
 		logger.info("[kid/portal/getTicketList]-out:" + gson.toJson(mapList));
-
 		return "success.json";
 	}
-
 }
