@@ -47,6 +47,7 @@ public class GetMaterielAction extends PortalUserAjaxAction {
 			for(CMSEntity cmsEntity : cmsEntityList) {
 				Map<String, Object> map = new HashMap<>();
 				map.put("title", cmsEntity.title);
+				map.put("content", cmsEntity.content);
 				map.put("imgUrl", cmsEntity.imageurl);
 				map.put("link", cmsEntity.link);
 				mapList.add(map);
