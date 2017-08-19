@@ -89,6 +89,7 @@ public class GetBooksAction extends PortalUserAjaxAction{
 					bookMap.put("status", status);
 					bookMap.put("expire", book.getBookdate());
 					bookMap.put("serialNumber", String.valueOf(ticket.serialNumber));
+					bookMap.put("expireTime", ticket.expire);
 					mapList.add(bookMap);
 				}
 			}
